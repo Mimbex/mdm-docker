@@ -4,11 +4,11 @@ echo "🚀 Quick Setup for Headwind MDM with Traefik"
 echo "=============================================="
 echo ""
 
-# Check if running as root
-if [ "$EUID" -eq 0 ]; then 
-    echo "⚠️  Please do not run this script as root"
-    exit 1
-fi
+# Note: Running as root is not recommended but allowed
+# if [ "$EUID" -eq 0 ]; then 
+#     echo "⚠️  Please do not run this script as root"
+#     exit 1
+# fi
 
 # Check if Docker is installed
 if ! command -v docker &> /dev/null; then
