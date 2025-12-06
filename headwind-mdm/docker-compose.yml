@@ -18,6 +18,7 @@ services:
       BASE_DOMAIN: ${DOMAIN}
       LOCAL_IP: ${LOCAL_IP}
       PROTOCOL: https
+      HTTPS_LETSENCRYPT: "false"
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       SHARED_SECRET: ${SHARED_SECRET}
       HMDM_VARIANT: ${HMDM_VARIANT}
