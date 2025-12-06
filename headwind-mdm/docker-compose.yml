@@ -17,7 +17,7 @@ services:
       SQL_PASS: ${SQL_PASS}
       BASE_DOMAIN: ${DOMAIN}
       LOCAL_IP: ${LOCAL_IP}
-      PROTOCOL: http
+      PROTOCOL: https
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       SHARED_SECRET: ${SHARED_SECRET}
       HMDM_VARIANT: ${HMDM_VARIANT}
