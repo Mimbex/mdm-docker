@@ -1,0 +1,66 @@
+services:
+  headwind-mdm:
+    image: headwindmdm/hmdm:0.1.5
+    restart: always
+    env_file:
+      - ./.env
+    networks:
+      - traefik-network
+      - postgres-network
+    volumes:
+      - hmdm-work:/usr/local/tomcat/work
+      - hmdm-config:/usr/local/tomcat/conf/Catalina/localhost
+    environment:
+      SQL_HOST: postgresql
+      SQL_USER: ${SQL_USER}
+      SQL_BASE: ${SQL_BASE}
+      SQL_PASS: ${SQL_PASS}
+      BASE_DOMAIN: ${DOMAIN}
+      LOCAL_IP: ${LOCAL_IP}
+      PROTOCOL: https
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      SHARED_SECRET: ${SHARED_SECRET}
+      HMDM_VARIANT: ${HMDM_VARIANT}
+      DOWNLOAD_CREDENTIALS: ${DOWNLOAD_CREDENTIALS}
+      HMDM_URL: ${HMDM_URL}
+      CLIENT_VERSION: ${CLIENT_VERSION}
+      FORCE_RECONFIGURE: ${FORCE_RECONFIGURE}
+    labels:
+      - "traefik.enable=true"
+      
+      #----------------------------------------------- routers for: headwind-mdm --------------------------------------------------
+      # http
+      - "traefik.http.routers.hmdm-http.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.hmdm-http.entrypoints=web"
+      - "traefik.http.routers.hmdm-http.service=hmdm"
+
+      # https
+      - "traefik.http.routers.hmdm-https.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.hmdm-https.entrypoints=websecure"
+      - "traefik.http.routers.hmdm-https.service=hmdm"
+      - "traefik.http.routers.hmdm-https.tls.certresolver=myresolver"
+      - "traefik.http.routers.hmdm-https.middlewares=gzip,sslheader"
+      
+      #====================================================== services ===========================================================
+      - "traefik.http.services.hmdm.loadbalancer.server.port=8443"
+      - "traefik.http.services.hmdm.loadbalancer.server.scheme=https"
+
+      - "traefik.docker.network=traefik-network"
+      
+      #===================================================== middlewares =========================================================
+      # http to https
+      - "traefik.http.middlewares.hmdm-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.hmdm-redirect.redirectscheme.permanent=true"
+      - "traefik.http.routers.hmdm-http.middlewares=hmdm-redirect"
+      - "traefik.http.middlewares.gzip.compress=true"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+
+volumes:
+  hmdm-work:
+  hmdm-config:
+
+networks:
+  traefik-network:
+    external: true
+  postgres-network:
+    external: true

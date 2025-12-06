@@ -1,0 +1,30 @@
+# Let's Encrypt certificates
+traefik/letsencrypt/
+
+# PostgreSQL data
+postgresql/data/
+
+# Headwind MDM volumes
+headwind-mdm/volumes/
+
+# Environment files with sensitive data (keep .env templates)
+# Uncomment these if you want to ignore all .env files
+# */.env
+# .env
+
+# Docker volumes
+volumes/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
