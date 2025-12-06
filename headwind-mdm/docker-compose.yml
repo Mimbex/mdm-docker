@@ -11,13 +11,13 @@ services:
       - hmdm-work:/usr/local/tomcat/work
       - hmdm-config:/usr/local/tomcat/conf/Catalina/localhost
     environment:
-      SQL_HOST: postgresql
+      SQL_HOST: ${SQL_HOST:-postgresql}
       SQL_USER: ${SQL_USER}
       SQL_BASE: ${SQL_BASE}
       SQL_PASS: ${SQL_PASS}
       BASE_DOMAIN: ${DOMAIN}
       LOCAL_IP: ${LOCAL_IP}
-      PROTOCOL: https
+      PROTOCOL: http
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       SHARED_SECRET: ${SHARED_SECRET}
       HMDM_VARIANT: ${HMDM_VARIANT}
@@ -42,8 +42,8 @@ services:
       - "traefik.http.routers.hmdm-https.middlewares=gzip,sslheader"
       
       #====================================================== services ===========================================================
-      - "traefik.http.services.hmdm.loadbalancer.server.port=8443"
-      - "traefik.http.services.hmdm.loadbalancer.server.scheme=https"
+      - "traefik.http.services.hmdm.loadbalancer.server.port=8080"
+      - "traefik.http.services.hmdm.loadbalancer.server.scheme=http"
 
       - "traefik.docker.network=traefik-network"
       
