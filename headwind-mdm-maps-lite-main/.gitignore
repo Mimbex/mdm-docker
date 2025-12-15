@@ -1,0 +1,23 @@
+# Python & virtual environments
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Config / environment files
+.env
+*.env
+.env.*
+.env.*.local
+
+# Logs & temporary
+*.log
+instance/
+*.sqlite
+cookies.txt
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
